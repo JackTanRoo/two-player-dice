@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dice Game</title>
+</head>
+<body>
+
+  <h1>Jack's Dice DApp</h1>
+  <label>FirstContract.getInteger</label>
+  <br />
+  <label id="myLabel"></label>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/web3@1.2.6/dist/web3.min.js"></script>
+<script>
+
+const web3 = new Web3('http://localhost:8545');
+
+// const myContractAddress = '0x1A19163b1d6A16E998d112Ba6E05412Bad869e2B';
+
+const myContractAddress = '0x8565553AEc682A19232880FE5B75DC074bf32BcF';
+
+// const myAbi = [{"inputs":[],"name":"getInteger","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"pure","type":"function"}];
+
+const myAbi = [{"inputs":[],"name":"lastPlayed_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player1_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player2_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"player","type":"address"}],"name":"returnScore","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_player1","type":"address"},{"internalType":"address","name":"_player2","type":"address"}],"name":"startGame","outputs":[{"internalType":"address[2]","name":"","type":"address[2]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"takeTurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"winner_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
+
+
+const myContract = new web3.eth.Contract(myAbi, myContractAddress);
+
+const htmlLabel = document.getElementById('myLabel');
+
+myContract.methods.getInteger("Hello World").call().then((jsonRpcResult) => {
+  htmlLabel.innerHTML = jsonRpcResult;
+});
+
+</script>
+</html>

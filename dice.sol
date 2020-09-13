@@ -28,9 +28,11 @@ contract Dice {
 
   // start the game with 2 players
 
-  function startGame(address _player1, address _player2) external {
+  function startGame(address _player1, address _player2) external returns (address[2] memory) {
     player1_ = _player1;
     player2_ = _player2;
+
+    return [player1_, player2_];
   }
 
   // dice roll generator
