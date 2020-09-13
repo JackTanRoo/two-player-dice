@@ -56,9 +56,9 @@ contract Dice {
     bets[msg.sender].turns += 1;
   }
 
-  // return score of each player
+  // return gameStatus of each player
 
-  function returnScore (address player) external view returns (uint8) {
+  function getStatus () external view returns (uint8) {
     return bets[player].score;
   }
 

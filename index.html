@@ -13,19 +13,22 @@
 
   <h1>Jack's Dice DApp </h1>
   <br />
-  <label id="myLabel"></label>
-
   <form>
-  <div class="form-group">
-    <label for="player1PubAddress">Player 1</label>
-    <input type="email" class="form-control" id="address1" aria-describedby="emailHelp" placeholder="Enter public address of Player 1">
-  </div>
-  <div class="form-group">
-    <label for="player2PubAddress">Player 2</label>
-    <input type="email" class="form-control" id="address2" aria-describedby="emailHelp" placeholder="Enter public address of Player 2">
-  </div>
-  <button type="submit" class="btn btn-primary start-game">Start Game</button>
-</form>
+    <div class="form-group">
+      <label for="player1PubAddress">Player 1</label>
+      <input type="email" class="form-control" id="address1" aria-describedby="emailHelp" placeholder="Enter public address of Player 1">
+    </div>
+    <div class="form-group">
+      <label for="player2PubAddress">Player 2</label>
+      <input type="email" class="form-control" id="address2" aria-describedby="emailHelp" placeholder="Enter public address of Player 2">
+    </div>
+    <button type="submit" class="btn btn-primary start-game">Start Game</button>
+  </form>
+  <br>
+  <p>Game Status</p>
+  <p id="status"></p>
+  <p id="player1"></p>
+  <p id="player2"></p>
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/web3@1.2.6/dist/web3.min.js"></script>
@@ -61,8 +64,9 @@ $('.start-game').on('click', function() {
        console.log("start game clicked with: ", player1PubAddress, player2PubAddress);
 
        myContract.methods.startGame(player1PubAddress, player2PubAddress).call().then((jsonRpcResult) => {
-         htmlLabel.innerHTML = jsonRpcResult;
-         console.log("Game Started with: ", jsonRpcResult);
+         $('#status').text("Game Started. The players are: ");
+         $('#player1').text("Player 1: " + jsonRpcResult[0]);
+         $('#player2').text("Player 2: " + jsonRpcResult[1]);
        });
 });
 
