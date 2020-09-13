@@ -26,6 +26,12 @@ contract Dice {
 
 	mapping(address => Bet) private bets;
 
+  // check initial
+
+  function init() external view returns (string memory) {
+    return "I am working";
+  }
+
   // start the game with 2 players
 
   function startGame(address _player1, address _player2) external returns (address[2] memory) {

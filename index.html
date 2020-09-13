@@ -38,28 +38,37 @@ const web3 = new Web3('http://localhost:8545');
 
 // const myContractAddress = '0x1A19163b1d6A16E998d112Ba6E05412Bad869e2B';
 
-const myContractAddress = '0x188D22f8e3026c9e02b92Dfd1D25f24C079D62FE';
+const myContractAddress = '0xb8ad17AC5C7044690E2618793dA852E09971810d';
 
 // const myAbi = [{"inputs":[],"name":"getInteger","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"pure","type":"function"}];
 
-const myAbi = [{"inputs":[],"name":"lastPlayed_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player1_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player2_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"player","type":"address"}],"name":"returnScore","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_player1","type":"address"},{"internalType":"address","name":"_player2","type":"address"}],"name":"startGame","outputs":[{"internalType":"address[2]","name":"","type":"address[2]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"takeTurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"winner_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
-
+const myAbi = [{"inputs":[],"name":"init","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastPlayed_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player1_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player2_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"player","type":"address"}],"name":"returnScore","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_player1","type":"address"},{"internalType":"address","name":"_player2","type":"address"}],"name":"startGame","outputs":[{"internalType":"address[2]","name":"","type":"address[2]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"takeTurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"winner_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
 const myContract = new web3.eth.Contract(myAbi, myContractAddress);
 
 const htmlLabel = document.getElementById('myLabel');
 var player1PubAddress;
 var player2PubAddress;
 
+
+myContract.methods.init().call().then((jsonRpcResult) => {
+  // htmlLabel.innerHTML = jsonRpcResult;
+  console.log("Init return: ", jsonRpcResult);
+});
+
 $('.start-game').on('click', function() {
        player1PubAddress = $('#address1').val();
        player2PubAddress = $('#address2').val();
        console.log("start game clicked with: ", player1PubAddress, player2PubAddress);
-   });
 
-myContract.methods.startGame(player1PubAddress, player2PubAddress).call().then((jsonRpcResult) => {
-  htmlLabel.innerHTML = jsonRpcResult;
-  console.log("Game Started with: ", jsonRpcResult);
+       myContract.methods.startGame(player1PubAddress, player2PubAddress).call().then((jsonRpcResult) => {
+         htmlLabel.innerHTML = jsonRpcResult;
+         console.log("Game Started with: ", jsonRpcResult);
+       });
 });
+
+
+
+
 
 </script>
 </html>
