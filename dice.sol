@@ -51,15 +51,16 @@ contract Dice {
 
   // take turns to roll the dice and increment the score
 
-  function takeTurn () external {
+  function takeTurn () external returns (address){
     bets[msg.sender].score += random();
     bets[msg.sender].turns += 1;
+    return msg.sender;
   }
 
   // return gameStatus of each player
 
-  function getStatus () external view returns (uint8) {
-    return bets[player].score;
+  function getStatus () external view returns (uint8[2] memory) {
+    return [bets[player1_].score, bets[player2_].score];
   }
 
   // if both players are at 5 turns, then find winner
