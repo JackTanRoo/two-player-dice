@@ -1,36 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
   <title>Dice Game</title>
 </head>
 <body>
 
-  <h1>Jack's Dice DApp</h1>
-  <label>FirstContract.getInteger</label>
+  <h1>Jack's Dice DApp </h1>
   <br />
   <label id="myLabel"></label>
 
+  <form>
+  <div class="form-group">
+    <label for="player1PubAddress">Player 1</label>
+    <input type="email" class="form-control" id="address1" aria-describedby="emailHelp" placeholder="Enter public address of Player 1">
+  </div>
+  <div class="form-group">
+    <label for="player2PubAddress">Player 2</label>
+    <input type="email" class="form-control" id="address2" aria-describedby="emailHelp" placeholder="Enter public address of Player 2">
+  </div>
+  <button type="submit" class="btn btn-primary start-game">Start Game</button>
+</form>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/web3@1.2.6/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
 
 const web3 = new Web3('http://localhost:8545');
 
 // const myContractAddress = '0x1A19163b1d6A16E998d112Ba6E05412Bad869e2B';
 
-const myContractAddress = '0x8565553AEc682A19232880FE5B75DC074bf32BcF';
+const myContractAddress = '0x188D22f8e3026c9e02b92Dfd1D25f24C079D62FE';
 
 // const myAbi = [{"inputs":[],"name":"getInteger","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"pure","type":"function"}];
 
 const myAbi = [{"inputs":[],"name":"lastPlayed_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player1_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"player2_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"player","type":"address"}],"name":"returnScore","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_player1","type":"address"},{"internalType":"address","name":"_player2","type":"address"}],"name":"startGame","outputs":[{"internalType":"address[2]","name":"","type":"address[2]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"takeTurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"winner_","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
 
-
 const myContract = new web3.eth.Contract(myAbi, myContractAddress);
 
 const htmlLabel = document.getElementById('myLabel');
+var player1PubAddress;
+var player2PubAddress;
 
-myContract.methods.getInteger("Hello World").call().then((jsonRpcResult) => {
+$('.start-game').on('click', function() {
+       player1PubAddress = $('#address1').val();
+       player2PubAddress = $('#address2').val();
+       console.log("start game clicked with: ", player1PubAddress, player2PubAddress);
+   });
+
+myContract.methods.startGame(player1PubAddress, player2PubAddress).call().then((jsonRpcResult) => {
   htmlLabel.innerHTML = jsonRpcResult;
+  console.log("Game Started with: ", jsonRpcResult);
 });
 
 </script>
